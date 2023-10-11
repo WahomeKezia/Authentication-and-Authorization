@@ -12,14 +12,11 @@ def home_view(request):
         return HttpResponseRedirect('afterlogin')
     return render(request,'school/index.html')
 
-
-
 #for showing signup/login button for teacher
 def adminclick_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
     return render(request,'school/adminclick.html')
-
 
 #for showing signup/login button for teacher
 def teacherclick_view(request):
@@ -27,16 +24,11 @@ def teacherclick_view(request):
         return HttpResponseRedirect('afterlogin')
     return render(request,'school/teacherclick.html')
 
-
 #for showing signup/login button for student
 def studentclick_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
     return render(request,'school/studentclick.html')
-
-
-
-
 
 def admin_signup_view(request):
     form=forms.AdminSigupForm()
@@ -47,15 +39,11 @@ def admin_signup_view(request):
             user.set_password(user.password)
             user.save()
 
-
             my_admin_group = Group.objects.get_or_create(name='ADMIN')
             my_admin_group[0].user_set.add(user)
 
             return HttpResponseRedirect('adminlogin')
     return render(request,'school/adminsignup.html',{'form':form})
-
-
-
 
 def student_signup_view(request):
     form1=forms.StudentUserForm()
@@ -78,7 +66,6 @@ def student_signup_view(request):
         return HttpResponseRedirect('studentlogin')
     return render(request,'school/studentsignup.html',context=mydict)
 
-
 def teacher_signup_view(request):
     form1=forms.TeacherUserForm()
     form2=forms.TeacherExtraForm()
@@ -99,10 +86,6 @@ def teacher_signup_view(request):
 
         return HttpResponseRedirect('teacherlogin')
     return render(request,'school/teachersignup.html',context=mydict)
-
-
-
-
 
 
 #for checking user is techer , student or admin
@@ -129,9 +112,6 @@ def afterlogin_view(request):
             return redirect('student-dashboard')
         else:
             return render(request,'school/student_wait_for_approval.html')
-
-
-
 
 #for dashboard of admin
 
@@ -172,13 +152,7 @@ def admin_dashboard_view(request):
 
     return render(request,'school/admin_dashboard.html',context=mydict)
 
-
-
-
-
-
-
-#for teacher section by admn
+#for teacher section by admin
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_teacher_view(request):
@@ -284,11 +258,6 @@ def admin_view_teacher_salary_view(request):
     teachers=models.TeacherExtra.objects.all()
     return render(request,'school/admin_view_teacher_salary.html',{'teachers':teachers})
 
-
-
-
-
-
 #for student by admin
 
 @login_required(login_url='adminlogin')
@@ -375,7 +344,6 @@ def update_student_view(request,pk):
     return render(request,'school/admin_update_student.html',context=mydict)
 
 
-
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_approve_student_view(request):
@@ -397,10 +365,6 @@ def approve_student_view(request,pk):
 def admin_view_student_fee_view(request):
     students=models.StudentExtra.objects.all()
     return render(request,'school/admin_view_student_fee.html',{'students':students})
-
-
-
-
 
 
 #attendance related view
@@ -434,7 +398,6 @@ def admin_take_attendance_view(request,cl):
     return render(request,'school/admin_take_attendance.html',{'students':students,'aform':aform})
 
 
-
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_view_attendance_view(request,cl):
@@ -452,14 +415,7 @@ def admin_view_attendance_view(request,cl):
     return render(request,'school/admin_view_attendance_ask_date.html',{'cl':cl,'form':form})
 
 
-
-
-
-
-
-
-
-#fee related view by adminnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+#fee related view by admin
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_fee_view(request):
